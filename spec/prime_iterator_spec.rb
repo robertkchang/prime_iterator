@@ -3,7 +3,7 @@ require 'prime_iterator'
 
 describe "Test" do
   it "should get first four prime numbers starting with 2" do
-    PrimeIterator.reset
+    PrimeIterator.initialize
 
     next_prime = PrimeIterator.next
     next_prime.should eql 2
@@ -19,7 +19,7 @@ describe "Test" do
   end
 
   it "should get first ten prime numbers starting with 2" do
-    PrimeIterator.reset
+    PrimeIterator.initialize
 
     next_prime = PrimeIterator.next
     next_prime.should eql 2
@@ -53,7 +53,7 @@ describe "Test" do
   end
 
   it "should get eleven prime numbers starting with 2" do
-    PrimeIterator.reset
+    PrimeIterator.initialize
 
     next_prime = PrimeIterator.next
     next_prime.should eql 2
@@ -92,7 +92,7 @@ describe "Test" do
   end
 
   it "should reset and restart prime number sequence from 2" do
-    PrimeIterator.reset
+    PrimeIterator.initialize
 
     next_prime = PrimeIterator.next
     next_prime.should eql 2
@@ -106,14 +106,14 @@ describe "Test" do
     next_prime = PrimeIterator.next
     next_prime.should eql 7
 
-    PrimeIterator.reset
+    PrimeIterator.initialize
 
     next_prime = PrimeIterator.next
     next_prime.should eql 2
   end
 
   it "should get previous four prime numbers" do
-    PrimeIterator.reset
+    PrimeIterator.initialize
 
     next_prime = PrimeIterator.next
     next_prime.should eql 2
@@ -143,7 +143,7 @@ describe "Test" do
   end
 
   it "should get previous ten prime numbers when previous is called on eleventh prime" do
-    PrimeIterator.reset
+    PrimeIterator.initialize
 
     next_prime = PrimeIterator.next
     next_prime.should eql 2
@@ -217,7 +217,7 @@ describe "Test" do
   end
 
   it "should get next 10 then previous 10 then next 10 again" do
-    PrimeIterator.reset
+    PrimeIterator.initialize
 
     next_prime = PrimeIterator.next
     next_prime.should eql 2

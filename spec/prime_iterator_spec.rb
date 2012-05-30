@@ -10,7 +10,7 @@ describe "Test" do
     iterator.next.should eql 7
   end
 
-  it "should get first ten prime numbers starting with 2" do
+  it "should, given default batch size of 10, get first ten prime numbers starting with 2" do
     iterator = PrimeIterator.new
     iterator.next.should eql 2
     iterator.next.should eql 3
@@ -24,7 +24,7 @@ describe "Test" do
     iterator.next.should eql 29
   end
 
-  it "should get eleven prime numbers starting with 2" do
+  it "should, given default batch size of 10, get eleven prime numbers starting with 2" do
     iterator = PrimeIterator.new
     iterator.next.should eql 2
     iterator.next.should eql 3
@@ -66,7 +66,7 @@ describe "Test" do
     iterator.previous.should eql nil
   end
 
-  it "should get previous ten prime numbers when previous is called on eleventh prime" do
+  it "should, given default batch size of 10, get previous ten prime numbers when previous is called on eleventh prime" do
     iterator = PrimeIterator.new
     iterator.next.should eql 2
     iterator.next.should eql 3
@@ -96,7 +96,7 @@ describe "Test" do
     iterator.previous.should eql nil
   end
 
-  it "should get next 10 then previous 10 then next 10 again" do
+  it "should, given default batch size of 10, get next 10 then previous 10 then next 10 again" do
     iterator = PrimeIterator.new
     iterator.next.should eql 2
     iterator.next.should eql 3
@@ -156,6 +156,28 @@ describe "Test" do
 
   it "should return nil if previous is called on newly instantiated iterator" do
     iterator = PrimeIterator.new
+    iterator.previous.should eql nil
+  end
+
+  it "should, given default batch size of 5, get previous five prime numbers when previous is called on sixth prime" do
+    iterator = PrimeIterator.new
+    iterator.batch_size=5
+
+    iterator.next.should eql 2
+    iterator.next.should eql 3
+    iterator.next.should eql 5
+    iterator.next.should eql 7
+    iterator.next.should eql 11
+
+    # should get next batch of prime numbers here
+    iterator.next.should eql 13
+
+    # should get previous batch here
+    iterator.previous.should eql 11
+    iterator.previous.should eql 7
+    iterator.previous.should eql 5
+    iterator.previous.should eql 3
+    iterator.previous.should eql 2
     iterator.previous.should eql nil
   end
 

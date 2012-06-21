@@ -2,25 +2,45 @@
 # Provides API to get next and previous prime number
 #
 # USAGE:
-#    iterator = PrimeIterator.new
-#    iterator.next        # get next prime number, starting from 2
-#    iterator.previous    # get previous prime number, or nil if previous is called on prime number 2
-#    iterator.reset       # resets, next will start at 2
-#    iterator.batch_size= # sets the number of prime numbers gotten per fetch (which occurs when previous is called at top of list or next is called at end of list)
+#    iterator = PrimeIterator.new <starting_prime>
+#    iterator.next            # get next prime number, starting from <starting_prime>; defaults to 2 if <starting_prime> is not given
+#    iterator.previous        # get previous prime number, or nil if previous is called on prime number 2
+#    iterator.reset           # resets, next will start at <starting_prime>
+#    iterator.batch_size=     # sets the number of prime numbers gotten per fetch (which occurs when previous is called at top of list or next is called at end of list)
+#    iterator.starting_prime= # sets the starting prime.  Must call PrimeIterator.reset to take effect.
+#
 #
 require 'prime_finder'
 
 class PrimeIterator
 
-  attr_accessor :batch_size
+  DEFAULT_LOWER_BOUND = 2 # 2 is first prime number
+  DEFAULT_BATCH_SIZE = 10
+
+  attr_accessor :batch_size, :starting_prime
 
   #
   # Init
   #
-  def initialize
-    @batch_size = 10 # default size is 10
-    @current_lower_bound = 2  # 2 is first prime number
-    @current_upper_bound = 2  #
+  def initialize *args
+
+    @starting_prime = DEFAULT_LOWER_BOUND
+    if args.size > 1
+      raise "Invalid number of parameter. Specify a starting prime number or do not specify to start at 2."
+    elsif args.size == 1
+      @starting_prime = args[0]
+    end
+
+    # is given lower bound a valid prime number?
+    finder = PrimeFinder.new
+    prime_arr = finder.find_primes @starting_prime, @starting_prime
+    if prime_arr.size==0
+      raise "#{@starting_prime} is an invalid starting prime number."
+    end
+
+    @batch_size = DEFAULT_BATCH_SIZE
+    @current_lower_bound = @starting_prime
+    @current_upper_bound = @starting_prime
     @current_prime_list = Array.new
     @current_prime_list_idx = -1
   end
@@ -59,7 +79,7 @@ class PrimeIterator
   # Reset
   #
   def reset
-    initialize
+    initialize @starting_prime
   end
 
   private #####
